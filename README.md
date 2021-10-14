@@ -10,7 +10,7 @@ Predict optical properties of molecules with machine learning.
 0. Install [Anaconda or Miniconda](https://docs.conda.io/projects/continuumio-conda/en/latest/user-guide/install/index.html) if you have not yet done so.
 1. `git clone git@github.com:learningmatter-mit/uvvisml.git`
 2. `cd uvvisml`
-3. `conda env create -f uvvisml_env.yml`
+3. `conda env create -f environment.yml`
 4. `cd uvvisml`
 4. `bash get_model_files.sh`
 5. `conda activate uvvisml`
@@ -62,13 +62,13 @@ Output the ensemble variance (a measure of epistemic uncertainty) in predictions
 
 ### Examples
 ```
-python ../predict.py --test_file ../data/splits/lambda_max_abs/deep4chem/group_by_smiles/smiles_target_test.csv --property absorption_peak_nm_expt --method chemprop --preds_file test_preds.csv
+python uvvisml/predict.py --test_file uvvisml/data/splits/lambda_max_abs/deep4chem/group_by_smiles/smiles_target_test.csv --property absorption_peak_nm_expt --method chemprop --preds_file test_preds.csv
 
-python ../predict.py --test_file ../data/splits/lambda_max_abs/deep4chem/group_by_smiles/smiles_target_test.csv --property vertical_excitation_eV_tddft --method chemprop --preds_file test_preds.csv
+python uvvisml/predict.py --test_file uvvisml/data/splits/lambda_max_abs/deep4chem/group_by_smiles/smiles_target_test.csv --property vertical_excitation_eV_tddft --method chemprop --preds_file test_preds.csv
 
-python ../predict.py --test_file ../data/splits/lambda_max_abs/deep4chem/group_by_smiles/smiles_target_test.csv --property absorption_peak_nm_expt --method chemprop --preds_file test_preds.csv --train_dataset deep4chem
+python uvvisml/predict.py --test_file uvvisml/data/splits/lambda_max_abs/deep4chem/group_by_smiles/smiles_target_test.csv --property absorption_peak_nm_expt --method chemprop --preds_file test_preds.csv --train_dataset deep4chem
 
-python ../predict.py --test_file ../data/splits/lambda_max_abs/deep4chem/group_by_smiles/smiles_target_test.csv --property absorption_peak_nm_expt --method chemprop_tddft --preds_file test_preds.csv --log_level info
+python uvvisml/predict.py --test_file uvvisml/data/splits/lambda_max_abs/deep4chem/group_by_smiles/smiles_target_test.csv --property absorption_peak_nm_expt --method chemprop_tddft --preds_file test_preds.csv --log_level info
 ```
 
 ## Data
