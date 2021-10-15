@@ -2,7 +2,7 @@ UVVisML
 ==============================
 [//]: # (Badges)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
+[![DOI](https://zenodo.org/badge/416607959.svg)](https://zenodo.org/badge/latestdoi/416607959)
 
 Predict optical properties of molecules with machine learning.
 
