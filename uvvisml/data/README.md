@@ -35,7 +35,7 @@ python create_splits.py
   publisher={ACS Publications}
 }
 ```
-* [Deep4Chem](https://doi.org/10.6084/m9.figshare.12808424.v1):
+* [Deep4Chem](https://doi.org/10.6084/m9.figshare.12045567.v2):
 ```
 @article{joung2020experimental,
   title={Experimental database of optical properties of organic compounds},
