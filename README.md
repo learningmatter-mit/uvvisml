@@ -12,8 +12,8 @@ Predict optical properties of molecules with machine learning.
 2. `cd uvvisml`
 3. `conda env create -f environment.yml`
 4. `cd uvvisml`
-4. `bash get_model_files.sh`
-5. `conda activate uvvisml`
+5. `bash get_model_files.sh`
+6. `conda activate uvvisml`
 
 ## Making Predictions
 

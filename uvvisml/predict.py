@@ -53,8 +53,6 @@ source activate chemprop
     elif cluster is None:
         header = """#!/bin/bash
 
-conda activate chemprop
-
 """
 
     return header
