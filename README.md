@@ -14,6 +14,7 @@ Predict optical properties of molecules with machine learning.
 4. `cd uvvisml`
 5. `bash get_model_files.sh`
 6. `conda activate uvvisml`
+7. `pip install chemprop`
 
 ## Making Predictions
 
