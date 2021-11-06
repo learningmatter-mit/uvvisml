@@ -129,7 +129,7 @@ def run_script(script_name, cluster=None):
     if cluster in ['supercloud','engaging']:
         run_command = f'sbatch {script_name}'
     elif cluster is None:
-        run_command = f'bash -i {script_name}'
+        run_command = f'bash {script_name}'
 
     process = subprocess.Popen(run_command.split())
     process.communicate()
