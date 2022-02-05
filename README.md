@@ -84,8 +84,12 @@ If you use this code, please cite the following [manuscript](https://doi.org/10.
   author={Greenman, Kevin P. and Green, William H. and G{\'{o}}mez-Bombarelli, Rafael},
   journal={Chemical Science},
   year={2022},
+  volume={13},
+  issue={4},
+  pages={1152-1162},
+  publisher={The Royal Society of Chemistry},
   doi={10.1039/D1SC05677H},
-  publisher={Royal Society of Chemistry}
+  url={http://dx.doi.org/10.1039/D1SC05677H}
 }
 ```
 
