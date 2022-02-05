@@ -6,7 +6,10 @@ UVVisML
 
 Predict optical properties of molecules with machine learning.
 
-## Setup
+## Colab Examples
+A Google Colab notebook is available [here](https://colab.research.google.com/github/learningmatter-mit/uvvisml/blob/main/uvvisml_demo.ipynb) with examples of using the various types of models and predictions. Alternatively, you may use the command line instructions below.
+
+## Command Line Setup
 0. Install [Anaconda or Miniconda](https://docs.conda.io/projects/continuumio-conda/en/latest/user-guide/install/index.html) if you have not yet done so.
 1. `git clone git@github.com:learningmatter-mit/uvvisml.git`
 2. `cd uvvisml`
