@@ -76,16 +76,17 @@ python uvvisml/predict.py --test_file uvvisml/data/splits/lambda_max_abs/deep4ch
 Please see the [Data README](uvvisml/data/README.md) for details on the sources and processing of the data used in this repository.
 
 ## Citation
-If you use this code, please cite the following [manuscript](https://doi.org/10.33774/chemrxiv-2021-6d2bp):
+If you use this code, please cite the following [manuscript](https://doi.org/10.1039/D1SC05677H):
 
 ```
-@article{greenman2021multi-fidelity,
+@article{greenman2022multi,
   title={Multi-fidelity prediction of molecular optical peaks with deep learning},
   author={Greenman, Kevin P. and Green, William H. and G{\'{o}}mez-Bombarelli, Rafael},
-  journal={chemRxiv},
-  doi={10.33774/chemrxiv-2021-6d2bp},
-  year={2021}
+  journal={Chemical Science},
+  year={2022},
+  doi={10.1039/D1SC05677H},
+  publisher={Royal Society of Chemistry}
 }
 ```
 
-The code for reproducing the results and figures from the above paper is available on [Zenodo](https://doi.org/10.5281/zenodo.5500428).
+The code for reproducing the results and figures from the above paper is available on [Zenodo](https://doi.org/10.5281/zenodo.5500427).
