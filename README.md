@@ -12,7 +12,7 @@ Predict optical properties of molecules with machine learning.
 2. `cd uvvisml`
 3. `conda env create -f environment.yml`
 4. `cd uvvisml`
-5. `bash get_model_files.sh`
+5. `bash get_model_files.sh` (This downloads trained model files from [Zenodo](https://doi.org/10.5281/zenodo.5498398).
 6. `conda activate uvvisml`
 7. `pip install chemprop`
 
