@@ -3,19 +3,12 @@
 
 # # Imports
 
-# In[1]:
-
-
 import pandas as pd
 import os
 import numpy as np
 from rdkit.Chem import AllChem as Chem
 import sys
 sys.path.append('..')
-
-
-# In[2]:
-
 
 WORK_DIR = os.getcwd()
 
@@ -32,22 +25,14 @@ if not os.path.exists(data_processed_dir):
 
 # ### ChemFluor
 
-# In[3]:
-
-
 data_location = os.path.join(DATA_DIR, 'chem_fluor/Alldata_SMILES.xlsx')
 chemfluor_df = pd.read_excel(data_location)
 chemfluor_df.rename(columns={'SMILES':'smiles',"Absorption/nm":'peakwavs_max'}, inplace=True)
 chemfluor_df = chemfluor_df[['smiles','solvent','peakwavs_max']].copy()
 chemfluor_df.dropna(inplace=True)
 chemfluor_df['source'] = 'chemfluor'
-chemfluor_df
-
 
 # ### DSSCDB
-
-# In[4]:
-
 
 data_location = os.path.join(DATA_DIR, 'dsscdb')
 xlsx_files = [x for x in os.listdir(data_location) if x.endswith('.xlsx')]
@@ -60,13 +45,8 @@ dsscdb_df.rename(columns={'SMILES':'smiles','SOLVENT':'solvent','ABSORPTION_MAXI
 dsscdb_df = dsscdb_df[['smiles','solvent','peakwavs_max']].copy()
 dsscdb_df.dropna(inplace=True)
 dsscdb_df['source'] = 'dsscdb'
-dsscdb_df
-
 
 # ### DyeAgg
-
-# In[5]:
-
 
 data_location = os.path.join(DATA_DIR, 'dye_agg/new_dssc_Search_results.csv')
 dyeagg_df = pd.read_csv(data_location, sep=';')
@@ -75,13 +55,8 @@ dyeagg_df.rename(columns={'STRUCTURE':'smiles','SOLVENT':'solvent','PEAK_ABSORPT
 dyeagg_df = dyeagg_df[['smiles','solvent','peakwavs_max']].copy()
 dyeagg_df.dropna(inplace=True)
 dyeagg_df['source'] = 'dyeagg'
-dyeagg_df
-
 
 # ### CDEx
-
-# In[6]:
-
 
 data_location = os.path.join(DATA_DIR, 'jcole/paper_allDB.csv')
 jcole_df = pd.read_csv(data_location)
@@ -89,13 +64,8 @@ jcole_df.rename(columns={'SMI':'smiles', "lambda_max (Exp,  nm)": 'peakwavs_max'
 jcole_df = jcole_df[['smiles','solvent','peakwavs_max']].copy()
 jcole_df.dropna(inplace=True)
 jcole_df['source'] = 'cdex'
-jcole_df
-
 
 # ### Deep4Chem
-
-# In[7]:
-
 
 data_location = os.path.join(DATA_DIR, 'joung/DB_for_chromophore_Sci_Data_rev02.csv')
 joung_df = pd.read_csv(data_location)
@@ -115,21 +85,13 @@ joung_df = joung_df[['smiles','solvent','peakwavs_max']].copy()
 joung_df.dropna(inplace=True)
 joung_df['source'] = 'deep4chem'
 
-joung_df
-
 
 # # Convert Solvent Names to SMILES
-
-# In[8]:
-
 
 no_solvent_smiles_df = pd.concat([chemfluor_df, dsscdb_df, dyeagg_df, jcole_df])
 no_solvent_smiles_df.reset_index(drop=True, inplace=True)
 no_solvent_smiles_df['solvent'] = no_solvent_smiles_df['solvent'].apply(lambda x: x.lower().strip())
 no_solvent_smiles_df
-
-
-# In[9]:
 
 
 # Exclude all solvents that are ionic, mixtures, polymers, or not clear what they are
@@ -144,11 +106,6 @@ no_solvent_smiles_df = no_solvent_smiles_df.loc[~no_solvent_smiles_df['solvent']
 
 for bad_symbol in ['%','/',':']:
     no_solvent_smiles_df = no_solvent_smiles_df.loc[~no_solvent_smiles_df['solvent'].str.contains(bad_symbol)]
-    
-no_solvent_smiles_df
-
-
-# In[10]:
 
 
 # Dictionary for standardizing abbreviations and different names for the same solvents
@@ -213,7 +170,6 @@ solvent_smiles_dict = {'cyclohexane': 'C1CCCCC1', 'dmso': 'CS(=O)C','ethylene gl
                }
 
 solvents_set = set(no_solvent_smiles_df['solvent'])
-#print(len(solvents_set))
 
 solvents_for_df_dict = {}
 for solvent in solvents_set:
@@ -224,9 +180,6 @@ for solvent in solvents_set:
     solvents_for_df_dict[solvent] = solvent_smiles_dict[solvent_]
 
 
-# In[11]:
-
-
 # Replace names with SMILES
 no_solvent_smiles_df['solvent'] = no_solvent_smiles_df['solvent'].map(solvents_for_df_dict)
 no_solvent_smiles_df
@@ -234,21 +187,14 @@ no_solvent_smiles_df
 
 # # Combine All Sources
 
-# In[12]:
-
-
 df = pd.concat([no_solvent_smiles_df, joung_df])
 df = df.loc[df['peakwavs_max']!='-'].copy()
 df['peakwavs_max'] = df['peakwavs_max'].apply(lambda x: float(x))
-df
 
 
 # # Filtering
 
 # ### Remove Molecules that Cannot be Sanitized by RDKit
-
-# In[13]:
-
 
 def sanitize_smiles(smiles):
     try:
@@ -260,24 +206,16 @@ def sanitize_smiles(smiles):
 df['smiles'] = df['smiles'].apply(lambda x: sanitize_smiles(x))
 df['solvent'] = df['solvent'].apply(lambda x: sanitize_smiles(x))
 df.dropna(inplace=True)
-df
 
 
 # ### Remove Clusters (SMILES containing ".")
 
-# In[14]:
-
-
 cluster_idx = df[df['smiles'].str.contains('\.')].index
 #print('Removing {} rows'.format(len(cluster_idx)))
 df.drop(index=cluster_idx, inplace=True)
-df
 
 
 # # Export DataFrame to CSV File
-
-# In[15]:
-
 
 df[['smiles','solvent','peakwavs_max','source']].to_csv(f'{data_processed_dir}/all_lambda_max_abs_including_duplicates.csv', 
                                                         index=False)
@@ -287,40 +225,11 @@ df[['smiles','solvent','peakwavs_max','source']].to_csv(f'{data_processed_dir}/a
 
 # ### Table 2
 
-# In[16]:
-
-
-df['source'].value_counts()
-
-
-# In[17]:
-
-
 df.drop_duplicates(subset=['smiles','solvent'])
-
-
-# In[18]:
-
 
 df.groupby(['smiles','solvent']).count().query('source > 1')
 
 
-# In[19]:
-
-
-len(set(df['smiles']))
-
-
-# In[20]:
-
-
-len(set(df['solvent']))
-
-
 # ### Table S1
 
-# In[21]:
-
-
 dict(df['solvent'].value_counts())
-
