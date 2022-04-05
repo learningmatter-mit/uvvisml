@@ -9,11 +9,11 @@ split_type = properties_split[1] #group_by_smiles, random, or scaffold
 # Train model
 
 arguments = [
-    '--data_path', f'uvvisml/data/splits/{optical_properties}/deep4chem/{split_type}/smiles_target_train.csv',
-    '--separate_val_path', f'uvvisml/data/splits/{optical_properties}/deep4chem/{split_type}/smiles_target_val.csv',
-    '--separate_test_path', f'uvvisml/data/splits/{optical_properties}/deep4chem/{split_type}/smiles_target_test.csv',
+    '--data_path', f'../uvvisml/data/splits/{optical_properties}/deep4chem/{split_type}/smiles_target_train.csv',
+    '--separate_val_path', f'../uvvisml/data/splits/{optical_properties}/deep4chem/{split_type}/smiles_target_val.csv',
+    '--separate_test_path', f'../uvvisml/data/splits/{optical_properties}/deep4chem/{split_type}/smiles_target_test.csv',
     '--dataset_type', 'regression',
-    '--save_dir', f'uvvisml/models/{optical_properties}_checkpoints/{split_type}',
+    '--save_dir', f'../uvvisml/models/{optical_properties}_checkpoints/{split_type}',
     '--epochs', '100', #100-200
     '--gpu', '0',
     '--number_of_molecules', '2',
@@ -26,9 +26,9 @@ mean_score, std_score = chemprop.train.cross_validate(args=train_args, train_fun
 # Predict from file
 
 arguments = [
-    '--test_path', f'uvvisml/data/splits/{optical_properties}/deep4chem/{split_type}/smiles_target_test.csv',
-    '--preds_path', f'uvvisml/models/{optical_properties}_checkpoints/{split_type}/{optical_properties}_preds.csv',
-    '--checkpoint_dir', f'uvvisml/models/{optical_properties}_checkpoints/{split_type}',
+    '--test_path', f'../uvvisml/data/splits/{optical_properties}/deep4chem/{split_type}/smiles_target_test.csv',
+    '--preds_path', f'../uvvisml/models/{optical_properties}_checkpoints/{split_type}/{optical_properties}_preds.csv',
+    '--checkpoint_dir', f'../uvvisml/models/{optical_properties}_checkpoints/{split_type}',
     '--number_of_molecules', '2',
     '--smiles_columns', 'smiles', 'solvent'
 ]
