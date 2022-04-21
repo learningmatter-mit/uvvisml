@@ -7,8 +7,7 @@ from sklearn.preprocessing import StandardScaler
 from scaffold_splits import scaffold_split
 import sys
 
-same_test_set = sys.argv[1] #either true or false
-optical_properties = sys.argv[2:]
+optical_properties = sys.argv[1:]
 
 target_names = []
 for property in optical_properties:
@@ -154,23 +153,16 @@ def handle_duplicates(df, cutoff=5, agg_source_col='multiple'):
 DATA_DIR = os.getcwd()
 
 # Read in data files
-if same_test_set == 'true':
-    splits_dir = 'splits_same_test_set'
-    prop_to_name = {'absPeak': '_abs', 'emiPeak': '_emi', 'quantumYield': '_quantum_yield'}
-    file_name = 'data_same_test_set'
-    for p in optical_properties:
-        file_name += prop_to_name[p]
-else:
-    splits_dir = 'splits'
-    file_name = ''
-    for i, property in enumerate(optical_properties):
-        file_name += property
-        if len(optical_properties) > 1 and i < (len(optical_properties) - 1):
-            file_name += '_'
-file_name += '.csv'
+if len(optical_properties) == 1:
+    if 'absPeak' in optical_properties:
+        file_name = 'data_same_test_set_abs.csv'
+    elif 'emiPeak' in optical_properties:
+        file_name = 'data_same_test_set_emi.csv'
+elif 'absPeak' in optical_properties and 'emiPeak' in optical_properties:
+    file_name = 'data_same_test_set_abs_emi.csv'
 
 property_df = pd.read_csv(f'processed/{file_name}')
-wb97xd3_df = pd.read_csv('computed/20210109_computed_df_all.csv')
+# wb97xd3_df = pd.read_csv('computed/20210109_computed_df_all.csv')
 
 # Filter data
 lower_cutoff = 0.9 # eV
@@ -202,7 +194,7 @@ elif optical_properties == ['logLife']:
     directory_name = 'log_lifetime'
 
 for split_type in ['random', 'group_by_smiles', 'scaffold']:
-    os.chdir(os.path.join(DATA_DIR,f'{splits_dir}/{directory_name}/deep4chem/{split_type}'))
+    os.chdir(os.path.join(DATA_DIR,f'splits_same_test_set/{directory_name}/deep4chem/{split_type}'))
     deep4chem_df = property_df.loc[property_df['source']=='deep4chem', :]
     _, _, _ = data_split_and_write(deep4chem_df, feature_names=None, target_names=target_names, solvation=True, 
                                    split_type=split_type, scale_targets=False, write_files=True, random_seed=0)
@@ -210,7 +202,7 @@ for split_type in ['random', 'group_by_smiles', 'scaffold']:
 
 # highest_tddft_peak 
 # for split_type in ['random', 'scaffold']:
-#     os.chdir(os.path.join(DATA_DIR,f'{splits_dir}/highest_tddft_peak/20210109_wb97xd3/{split_type}'))
+#     os.chdir(os.path.join(DATA_DIR,f'splits_same_test_set/highest_tddft_peak/20210109_wb97xd3/{split_type}'))
 #     _, _, _ = data_split_and_write(wb97xd3_df, feature_names=None, target_names=['energy_max_osc'], solvation=False, 
 #                                    split_type=split_type, scale_targets=False, write_files=True, random_seed=0)
 
