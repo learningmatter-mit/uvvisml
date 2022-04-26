@@ -9,8 +9,8 @@ from rdkit.Chem import AllChem as Chem
 import sys
 sys.path.append('..')
 
-#example args: true absPeak emiPeak
-same_test_set = sys.argv[1] #either true or false
+#example args: same_test_set absPeak emiPeak
+same_test_set = sys.argv[1] #same_test_set or diff_test_set
 optical_properties = sys.argv[2:]
 
 WORK_DIR = os.getcwd()
@@ -31,29 +31,12 @@ data_location = os.path.join(DATA_DIR, 'joung/DB_for_chromophore_Sci_Data_rev02.
 joung_df = pd.read_csv(data_location)
 
 # Drop columns that don't have data for specified optical properties
-if same_test_set:
+if same_test_set == 'same_test_set':
     prop_to_col = {'absPeak': 'Absorption max (nm)', 'emiPeak': 'Emission max (nm)', 'quantumYield': 'Quantum yield'}
     for p in optical_properties:
         empty_idx = joung_df[joung_df[prop_to_col[p]].isna()].index
         joung_df.drop(index=empty_idx, inplace=True)
 
-# Rename columns
-# columns = {'Chromophore':'smiles','Solvent':'solvent'}
-# for property in optical_properties:
-#     if property == 'absPeak':
-#         columns['Absorption max (nm)'] = 'abs_peakwavs_max'
-#     elif property == 'emiPeak':
-#         columns['Emission max (nm)'] = 'emi_peakwavs_max'
-#     elif property == 'absBand':
-#         columns['abs FWHM (nm)'] = 'abs_bandwidth'
-#     elif property == 'emiBand':
-#         columns['emi FWHM (nm)'] = 'emi_bandwidth'
-#     elif property == 'quantumYield':
-#         columns['Quantum yield'] = 'quantum_yield'
-#     elif property == 'logLife':
-#         columns['Lifetime (ns)'] = 'log_lifetime'
-#     elif property == 'absMol':
-#         columns['log(e/mol-1 dm3 cm-1)'] = 'abs_molar_ext_coeff'
 columns = {'Chromophore':'smiles','Solvent':'solvent', 'Absorption max (nm)':'abs_peakwavs_max', 
            'Emission max (nm)':'emi_peakwavs_max', 'abs FWHM (nm)':'abs_bandwidth',
            'emi FWHM (nm)':'emi_bandwidth', 'Quantum yield':'quantum_yield', 'Lifetime (ns)':'log_lifetime',
@@ -63,7 +46,7 @@ joung_df.rename(columns=columns,
                 inplace=True)
 
 # Drop columns of all other properties if creating same test set
-if same_test_set:
+if same_test_set == 'same_test_set':
     all_columns = list(joung_df.columns)
     dropped_columns = all_columns.copy()
     kept_columns = ['smiles', 'solvent']
@@ -86,7 +69,7 @@ ss_idx = joung_df[joung_df['smiles']==joung_df['solvent']].index
 joung_df.drop(index=ss_idx, inplace=True)
 
 # Create df with target properties and drop NaNs
-if same_test_set:
+if same_test_set == 'same_test_set':
     col_names = kept_columns
 else:
     col_names = list(columns.values())
@@ -126,7 +109,7 @@ df.drop(index=cluster_idx, inplace=True)
 
 # # Export DataFrame to CSV File
 
-if same_test_set:
+if same_test_set == 'same_test_set':
     file_name = 'data_same_test_set_'
 else:
     file_name = ''

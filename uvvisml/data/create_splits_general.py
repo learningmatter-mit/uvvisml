@@ -7,7 +7,7 @@ from sklearn.preprocessing import StandardScaler
 from scaffold_splits import scaffold_split
 import sys
 
-same_test_set = sys.argv[1] #either true or false
+same_test_set = sys.argv[1] #same_test_set or diff_test_set
 optical_properties = sys.argv[2:]
 
 target_names = []
@@ -154,7 +154,7 @@ def handle_duplicates(df, cutoff=5, agg_source_col='multiple'):
 DATA_DIR = os.getcwd()
 
 # Read in data files
-if same_test_set == 'true':
+if same_test_set == 'same_test_set':
     splits_dir = 'splits_same_test_set'
     prop_to_name = {'absPeak': '_abs', 'emiPeak': '_emi', 'quantumYield': '_quantum_yield'}
     file_name = 'data_same_test_set'
@@ -213,4 +213,3 @@ for split_type in ['random', 'group_by_smiles', 'scaffold']:
 #     os.chdir(os.path.join(DATA_DIR,f'{splits_dir}/highest_tddft_peak/20210109_wb97xd3/{split_type}'))
 #     _, _, _ = data_split_and_write(wb97xd3_df, feature_names=None, target_names=['energy_max_osc'], solvation=False, 
 #                                    split_type=split_type, scale_targets=False, write_files=True, random_seed=0)
-
