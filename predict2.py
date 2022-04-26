@@ -15,9 +15,11 @@ CURR_DIR = os.getcwd()
 if same_test_set == 'same_test_set':
     splits_dir = 'splits_same_test_set'
     models_dir = 'models_same_test_set'
+    CURR_DIR = CURR_DIR.replace('/batch_scripts_same_test_set', '')
 else:
     splits_dir = 'splits'
     models_dir = 'models'
+    CURR_DIR = CURR_DIR.replace('/batch_scripts', '')
 
 arguments = [
     '--data_path', os.path.join(CURR_DIR,f'uvvisml/data/{splits_dir}/{optical_properties}/deep4chem/{split_type}/smiles_target_train.csv'),
