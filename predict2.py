@@ -2,14 +2,14 @@ import chemprop
 import sys
 
 # command line arguments passed to the program, where first arg is optical property(ies), second arg is split type, and third arg is a bool for using same test set
-properties_split = sys.argv[1:] #e.g. both_peaks scaffold true
-optical_properties = properties_split[0]
-split_type = properties_split[1] #group_by_smiles, random, or scaffold
-same_test_set = properties_split[2]
+inputs = sys.argv[1:] #e.g. both_peaks scaffold same_test_set
+optical_properties = inputs[0]
+split_type = inputs[1] #group_by_smiles, random, or scaffold
+same_test_set = inputs[2] #same_test_set or diff_test_set
 
 # Train model
 
-if same_test_set == 'true':
+if same_test_set == 'same_test_set':
     splits_dir = 'splits_same_test_set'
     models_dir = 'models_same_test_set'
 else:
