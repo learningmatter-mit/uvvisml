@@ -15,7 +15,7 @@ def evaluate_chemprop_model(assignments, save_dir, args):
     with open(hyperopt_config_dir, "w") as outfile:
         json.dump(assignments, outfile)
 
-    run_command = f"""/home/kpg/.conda/envs/chemprop/bin/python /home/kpg/chemprop/train.py \
+    run_command = f"""chemprop_train \
 --data_path {args.data_path} \
 --dataset_type regression \
 --save_dir {save_dir} \

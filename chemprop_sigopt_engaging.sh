@@ -8,7 +8,7 @@
 #SBATCH --mem=30gb
 #SBATCH --gres=gpu:1
 #SBATCH --mail-type=END,FAIL
-#SBATCH --mail-user=kpg@mit.edu
+#SBATCH --mail-user=kimele03@mit.edu
 
 echo "Date              = $(date)"
 echo "Hostname          = $(hostname -s)"
