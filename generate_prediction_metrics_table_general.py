@@ -1,13 +1,25 @@
 import pandas as pd
+import sys
 
-df = pd.read_csv('prediction_metrics.csv').round({'rmse': 3, 'mae': 3, 'r2': 3})
+same_test_set = sys.argv[1:][0]
 
-fd = open('prediction_metrics_table.md', 'w')
+if same_test_set == 'same_test_set':
+    csv_filename = 'prediction_metrics_same_test_set.csv'
+    md_filename = 'prediction_metrics_table_same_test_set.md'
+    col_names = ['abs peakwavs max', 'emi peakwavs max']
+    col_names_full = ['maximum absorption wavelength', 'maximum emission wavelength']
+else:
+    csv_filename = 'prediction_metrics.csv'
+    md_filename = 'prediction_metrics_table.md'
+    col_names = ['abs peakwavs max', 'emi peakwavs max', 'abs bandwidth', 'abs molar ext coeff', 'emi bandwidth', 'quantum yield', 'log lifetime']
+    col_names_full = ['maximum absorption wavelength', 'maximum emission wavelength', 'absorption bandwidth', 'absorption molar extinction coefficient', 'emission bandwidth', 'quantum yield', 'log lifetime']
+
+df = pd.read_csv(csv_filename).round({'rmse': 3, 'mae': 3, 'r2': 3})
+
+fd = open(md_filename, 'w')
 
 fd.write('<font size="1">legend: $RMSE/MAE/R^2$</font>\n')
 
-col_names = ['abs peakwavs max', 'emi peakwavs max', 'abs bandwidth', 'abs molar ext coeff', 'emi bandwidth', 'quantum yield', 'log lifetime']
-col_names_full = ['maximum absorption wavelength', 'maximum emission wavelength', 'absorption bandwidth', 'absorption molar extinction coefficient', 'emission bandwidth', 'quantum yield', 'log lifetime']
 split_types = ['group_by_smiles', 'random', 'scaffold']
 
 opt_props = [i.replace(' ', '_') for i in col_names]

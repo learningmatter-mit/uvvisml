@@ -1,8 +1,9 @@
 import pandas as pd
-import matplotlib.pyplot as plt
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+import sys
 
-opt_properties = ['lambda_max_abs', 'lambda_max_emi', 'both_peaks', 'abs_all', 'emi_all', 'multitask_peak_stats', 'multitask_all', 'quantum_yield', 'log_lifetime']
+same_test_set = sys.argv[1:][0]
+
 split_types = ['group_by_smiles', 'random', 'scaffold']
 
 prop_to_col_name = {'lambda_max_abs': 'peakwavs_max',
@@ -15,6 +16,14 @@ prop_to_col_name = {'lambda_max_abs': 'peakwavs_max',
                     'quantum_yield': 'quantum_yield',
                     'log_lifetime': 'log_lifetime'}
 
+if same_test_set == 'same_test_set':
+    opt_properties = ['lambda_max_abs', 'lambda_max_emi', 'both_peaks']
+    filename = 'prediction_metrics_same_test_set.csv'
+    prop_to_col_name['lambda_max_abs'] = 'abs_peakwavs_max'
+else:
+    opt_properties = ['lambda_max_abs', 'lambda_max_emi', 'both_peaks', 'abs_all', 'emi_all', 'multitask_peak_stats', 'multitask_all', 'quantum_yield', 'log_lifetime']
+    filename = 'prediction_metrics.csv'
+
 col_units = {'peakwavs_max': 'nm',
            'emi_peakwavs_max': 'nm',
            'abs_peakwavs_max': 'nm',
@@ -26,7 +35,7 @@ col_units = {'peakwavs_max': 'nm',
 
 my_order = {'lambda_max_abs':'1', 'lambda_max_emi':'1', 'both_peaks':'2', 'abs_all':'3', 'emi_all':'3', 'multitask_peak_stats':'4', 'multitask_all':'5', 'quantum_yield':'1', 'log_lifetime':'1'}
 
-f = open('prediction_metrics.csv', 'w')
+f = open(filename, 'w')
 f.write('property,split,combo,rmse,mae,r2\n')
 
 def metrics_only(preds_file, true_file, col_name):
@@ -49,8 +58,12 @@ def calc_metrics(true_value, predicted_value):
 
 for opt_prop in opt_properties:
     for split_type in split_types:
-        preds_file = 'uvvisml/models/'+ opt_prop + '_checkpoints/' + split_type + '/' + opt_prop + '_preds.csv'
-        true_file = 'uvvisml/data/splits/'+ opt_prop + '/deep4chem/' + split_type + '/smiles_target_test.csv'
+        if same_test_set == 'same_test_set':
+            preds_file = 'uvvisml/models_same_test_set/' + opt_prop + '_checkpoints/' + split_type + '/' + opt_prop + '_preds.csv'
+            true_file = 'uvvisml/data/splits_same_test_set/' + opt_prop + '/deep4chem/' + split_type + '/smiles_target_test.csv'
+        else:
+            preds_file = 'uvvisml/models/' + opt_prop + '_checkpoints/' + split_type + '/' + opt_prop + '_preds.csv'
+            true_file = 'uvvisml/data/splits/' + opt_prop + '/deep4chem/' + split_type + '/smiles_target_test.csv'
         col_names = prop_to_col_name[opt_prop]
         if isinstance(col_names, list):
             for n in col_names:
