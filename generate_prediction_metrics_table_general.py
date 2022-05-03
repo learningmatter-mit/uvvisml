@@ -42,7 +42,7 @@ for s in split_types:
         cell = '<font size="1">'
         for index, col in df.iterrows():
             if col['property'] == o and col['split'] == s:
-                combo_metrics = '**' + str(col['combo']).replace('_', ' ') + ':** ' + str(col['rmse']) + '/' + str(col['mae']) + '/' + str(col['r2']) + ' '
+                combo_metrics = '**' + str(col['combo']).replace('_', ' ') + ':** ' + str(col['rmse']) + '/' + str(col['mae']) + '/' + str(col['r2']) + '<br>'
                 cell += combo_metrics
         row += '|' + cell + '</font> '
     row += '|\n'
