@@ -16,6 +16,6 @@ echo "Working Directory = $(pwd)"
 echo ""
 
 module load anaconda3/2021.11
-source activate chemprop
+source activate uvvisml
 
 python ../../chemprop_sigopt_engaging.py --data_path ../../../data/splits/lambda_max_abs/deep4chem/group_by_smiles/smiles_target_train.csv --separate_val_path ../../../data/splits/lambda_max_abs/deep4chem/group_by_smiles/smiles_target_val.csv --separate_test_path ../../../data/splits/lambda_max_abs/deep4chem/group_by_smiles/smiles_target_test.csv --metric rmse --epochs 50 --name multitask_all --observation_budget 50 --save_dir $(pwd) --solvation
