@@ -35,7 +35,7 @@ for prop in opt_properties:
             file_name += '_same_test_set'
         if hyperparam_opt == 'hyperparam_opt':
             file_name += '_hyperparam_opt'
-            prop_split_args = '--data_path smiles_target_test.csv --separate_val_path smiles_target_val.csv --separate_test_path smiles_target_test.csv --metric rmse --name ' + prop + ' --observation_budget 50 --save_dir $(pwd)'
+            prop_split_args = '--data_path $SPLITS_DIR/lambda_max_abs/deep4chem/group_by_smiles/smiles_target_train.csv --separate_val_path $SPLITS_DIR/lambda_max_abs/deep4chem/group_by_smiles/smiles_target_val.csv --separate_test_path $SPLITS_DIR/lambda_max_abs/deep4chem/group_by_smiles/smiles_target_test.csv --metric rmse --epochs 50 --name ' + prop + ' --observation_budget 50 --save_dir $(pwd) --solvation'
         file_name += '.sh'
 
         fwd = open(file_name, 'w')
@@ -61,7 +61,7 @@ for prop in opt_properties:
                 if same_test_set == 'same_test_set':
                     result += ' same_test_set'
                 if hyperparam_opt == 'hyperparam_opt':
-                    result = re.sub(r"(python chemprop_sigopt_engaging.py) (.*)", r"\1 {}".format(prop_split_args), line)
+                    result = re.sub(r"(python $MODEL_DIR/chemprop_sigopt_engaging.py) (.*)", r"\1 {}".format(prop_split_args), line)
                 # print(result)
                 fwd.write(result + '\n')
             else:
