@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH -p sched_mit_rafagb,sched_mit_rafagb_amd
-#SBATCH -J lambda_max_abs_group_by_smiles
-#SBATCH -o lambda_max_abs_group_by_smiles-%j.out
+#SBATCH -J chemprop_sigopt_multitask_peak_stats_random
+#SBATCH -o chemprop_sigopt_multitask_peak_stats_random-%j.out
 #SBATCH -t 3-00:00:00
 #SBATCH -n 1
 #SBATCH -N 1
@@ -18,4 +18,4 @@ echo ""
 module load anaconda3/2020.11
 source activate chemprop
 
-python chemprop_sigopt_engaging.py --data_path smiles_target_test.csv --separate_val_path smiles_target_val.csv --separate_test_path smiles_target_test.csv --metric rmse --name lambda_max_abs --observation_budget 50 --save_dir $(pwd)
+python chemprop_sigopt_engaging.py --data_path smiles_target_test.csv --separate_val_path smiles_target_val.csv --separate_test_path smiles_target_test.csv --metric rmse --name multitask_peak_stats --observation_budget 50 --save_dir $(pwd)
