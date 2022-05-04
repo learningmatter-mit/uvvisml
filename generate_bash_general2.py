@@ -35,7 +35,7 @@ for prop in opt_properties:
             file_name += '_same_test_set'
         if hyperparam_opt == 'hyperparam_opt':
             file_name += '_hyperparam_opt'
-            prop_split_args = 'python ../../chemprop_sigopt_engaging.py --data_path ../../../data/splits/lambda_max_abs/deep4chem/group_by_smiles/smiles_target_train.csv --separate_val_path ../../../data/splits/lambda_max_abs/deep4chem/group_by_smiles/smiles_target_val.csv --separate_test_path ../../../data/splits/lambda_max_abs/deep4chem/group_by_smiles/smiles_target_test.csv --metric rmse --epochs 50 --name ' + prop + ' --observation_budget 50 --save_dir $(pwd) --solvation'
+            prop_split_args = '--data_path ../../../data/splits/lambda_max_abs/deep4chem/group_by_smiles/smiles_target_train.csv --separate_val_path ../../../data/splits/lambda_max_abs/deep4chem/group_by_smiles/smiles_target_val.csv --separate_test_path ../../../data/splits/lambda_max_abs/deep4chem/group_by_smiles/smiles_target_test.csv --metric rmse --epochs 50 --name ' + prop + ' --observation_budget 50 --save_dir $(pwd) --solvation'
         file_name += '.sh'
 
         fwd = open(file_name, 'w')
