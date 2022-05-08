@@ -21,6 +21,7 @@ def evaluate_chemprop_model(assignments, save_dir, args):
 --save_dir {save_dir} \
 --config_path {hyperopt_config_dir} \
 --metric {args.metric} \
+--epochs {args.epochs} \
 --gpu 0 \
 --ensemble_size 1"""
 
@@ -94,10 +95,10 @@ def get_parser():
         "--metric", default="rmse", type=str, help="error metric (rmse, mae, etc)"
     )
     parser.add_argument(
-        "--epoch",
+        "--epochs",
         default=50,
         type=int,
-        help="number of epochs",
+        help="number of Chemprop epochs to run with each observation",
     )
     parser.add_argument(
         "--name",
