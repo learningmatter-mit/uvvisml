@@ -1,0 +1,179 @@
+Date              = Mon Oct  4 14:12:18 EDT 2021
+Hostname          = d-14-5-2
+Working Directory = /home/gridsan/kgreenman/uvvisml/uvvisml/models/lambda_max_abs/chemprop/combined/production
+
+#!/bin/bash
+#SBATCH -p normal
+#SBATCH -J uvvis_prod_combined
+#SBATCH -o uvvis_prod_combined-%j.out
+#SBATCH -t 5-00:00:00
+#SBATCH -n 1
+#SBATCH -N 1
+#SBATCH --mem=30gb
+#SBATCH --gres=gpu:volta:1
+
+echo "Date              = $(date)"
+echo "Hostname          = $(hostname -s)"
+echo "Working Directory = $(pwd)"
+echo ""
+cat $0
+echo ""
+
+source /etc/profile
+module load anaconda/2020a
+source activate chemprop
+
+CHEMPROP_DIR='/home/gridsan/kgreenman/chemprop'
+MODEL_DIR='../../../..'
+SPLITS_DIR='../../../../../data/splits'
+
+#python $CHEMPROP_DIR/train.py --data_path $SPLITS_DIR/lambda_max_abs/combined/group_by_smiles/smiles_target_train.csv --separate_val_path $SPLITS_DIR/lambda_max_abs/combined/group_by_smiles/smiles_target_val.csv --separate_test_path $SPLITS_DIR/lambda_max_abs/combined/group_by_smiles/smiles_target_test.csv --dataset_type regression --save_dir $(pwd) --metric rmse --epochs 200 --gpu 0 --ensemble_size 5 --config_path ../sigopt_chemprop_lambda_max_best_hyperparams_small.json --number_of_molecules 2
+
+python $CHEMPROP_DIR/predict.py --test_path $SPLITS_DIR/lambda_max_abs/combined/group_by_smiles/smiles_target_test.csv --checkpoint_dir $(pwd) --preds_path preds.csv --gpu 0 --number_of_molecules 2 --ensemble_variance
+
+WARNING:root:No normalization for BCUT2D_MWHI
+WARNING:root:No normalization for BCUT2D_MWLOW
+WARNING:root:No normalization for BCUT2D_CHGHI
+WARNING:root:No normalization for BCUT2D_CHGLO
+WARNING:root:No normalization for BCUT2D_LOGPHI
+WARNING:root:No normalization for BCUT2D_LOGPLOW
+WARNING:root:No normalization for BCUT2D_MRHI
+WARNING:root:No normalization for BCUT2D_MRLOW
+Loading training args
+Loading data
+0it [00:00, ?it/s]2576it [00:00, 70177.95it/s]
+  0%|          | 0/2576 [00:00<?, ?it/s]100%|██████████| 2576/2576 [00:00<00:00, 548425.31it/s]
+Validating SMILES
+Test size = 2,576
+Predicting with an ensemble of 5 models
+  0%|          | 0/5 [00:00<?, ?it/s]Loading pretrained parameter "encoder.encoder.0.cached_zero_vector".
+Loading pretrained parameter "encoder.encoder.0.W_i.weight".
+Loading pretrained parameter "encoder.encoder.0.W_h.weight".
+Loading pretrained parameter "encoder.encoder.0.W_o.weight".
+Loading pretrained parameter "encoder.encoder.0.W_o.bias".
+Loading pretrained parameter "encoder.encoder.1.cached_zero_vector".
+Loading pretrained parameter "encoder.encoder.1.W_i.weight".
+Loading pretrained parameter "encoder.encoder.1.W_h.weight".
+Loading pretrained parameter "encoder.encoder.1.W_o.weight".
+Loading pretrained parameter "encoder.encoder.1.W_o.bias".
+Warning: Pretrained parameter "ffn.1.weight" cannot be found in model parameters.
+Warning: Pretrained parameter "ffn.1.bias" cannot be found in model parameters.
+Warning: Pretrained parameter "ffn.4.weight" cannot be found in model parameters.
+Warning: Pretrained parameter "ffn.4.bias" cannot be found in model parameters.
+Warning: Pretrained parameter "ffn.7.weight" cannot be found in model parameters.
+Warning: Pretrained parameter "ffn.7.bias" cannot be found in model parameters.
+Moving model to cuda
+
+  0%|          | 0/52 [00:00<?, ?it/s][A
+  2%|▏         | 1/52 [00:03<02:37,  3.08s/it][A
+ 15%|█▌        | 8/52 [00:03<00:12,  3.41it/s][A
+ 35%|███▍      | 18/52 [00:03<00:03,  9.12it/s][A
+ 54%|█████▍    | 28/52 [00:03<00:01, 16.03it/s][A
+ 69%|██████▉   | 36/52 [00:03<00:00, 22.12it/s][A
+ 96%|█████████▌| 50/52 [00:03<00:00, 36.43it/s][A
+                                               [A 20%|██        | 1/5 [00:14<00:57, 14.50s/it]Loading pretrained parameter "encoder.encoder.0.cached_zero_vector".
+Loading pretrained parameter "encoder.encoder.0.W_i.weight".
+Loading pretrained parameter "encoder.encoder.0.W_h.weight".
+Loading pretrained parameter "encoder.encoder.0.W_o.weight".
+Loading pretrained parameter "encoder.encoder.0.W_o.bias".
+Loading pretrained parameter "encoder.encoder.1.cached_zero_vector".
+Loading pretrained parameter "encoder.encoder.1.W_i.weight".
+Loading pretrained parameter "encoder.encoder.1.W_h.weight".
+Loading pretrained parameter "encoder.encoder.1.W_o.weight".
+Loading pretrained parameter "encoder.encoder.1.W_o.bias".
+Warning: Pretrained parameter "ffn.1.weight" cannot be found in model parameters.
+Warning: Pretrained parameter "ffn.1.bias" cannot be found in model parameters.
+Warning: Pretrained parameter "ffn.4.weight" cannot be found in model parameters.
+Warning: Pretrained parameter "ffn.4.bias" cannot be found in model parameters.
+Warning: Pretrained parameter "ffn.7.weight" cannot be found in model parameters.
+Warning: Pretrained parameter "ffn.7.bias" cannot be found in model parameters.
+Moving model to cuda
+
+  0%|          | 0/52 [00:00<?, ?it/s][A
+  2%|▏         | 1/52 [00:00<00:26,  1.93it/s][A
+  8%|▊         | 4/52 [00:00<00:06,  7.45it/s][A
+ 29%|██▉       | 15/52 [00:00<00:01, 30.13it/s][A
+ 50%|█████     | 26/52 [00:00<00:00, 48.68it/s][A
+ 65%|██████▌   | 34/52 [00:00<00:00, 55.25it/s][A
+ 81%|████████  | 42/52 [00:01<00:00, 58.50it/s][A
+ 96%|█████████▌| 50/52 [00:01<00:00, 53.94it/s][A
+                                               [A 40%|████      | 2/5 [00:16<00:20,  6.88s/it]Loading pretrained parameter "encoder.encoder.0.cached_zero_vector".
+Loading pretrained parameter "encoder.encoder.0.W_i.weight".
+Loading pretrained parameter "encoder.encoder.0.W_h.weight".
+Loading pretrained parameter "encoder.encoder.0.W_o.weight".
+Loading pretrained parameter "encoder.encoder.0.W_o.bias".
+Loading pretrained parameter "encoder.encoder.1.cached_zero_vector".
+Loading pretrained parameter "encoder.encoder.1.W_i.weight".
+Loading pretrained parameter "encoder.encoder.1.W_h.weight".
+Loading pretrained parameter "encoder.encoder.1.W_o.weight".
+Loading pretrained parameter "encoder.encoder.1.W_o.bias".
+Warning: Pretrained parameter "ffn.1.weight" cannot be found in model parameters.
+Warning: Pretrained parameter "ffn.1.bias" cannot be found in model parameters.
+Warning: Pretrained parameter "ffn.4.weight" cannot be found in model parameters.
+Warning: Pretrained parameter "ffn.4.bias" cannot be found in model parameters.
+Warning: Pretrained parameter "ffn.7.weight" cannot be found in model parameters.
+Warning: Pretrained parameter "ffn.7.bias" cannot be found in model parameters.
+Moving model to cuda
+
+  0%|          | 0/52 [00:00<?, ?it/s][A
+  2%|▏         | 1/52 [00:00<00:28,  1.77it/s][A
+  8%|▊         | 4/52 [00:00<00:07,  6.34it/s][A
+ 23%|██▎       | 12/52 [00:00<00:01, 20.22it/s][A
+ 37%|███▋      | 19/52 [00:01<00:01, 28.23it/s][A
+ 52%|█████▏    | 27/52 [00:01<00:00, 32.00it/s][A
+ 69%|██████▉   | 36/52 [00:01<00:00, 42.87it/s][A
+                                               [A 60%|██████    | 3/5 [00:17<00:08,  4.50s/it]Loading pretrained parameter "encoder.encoder.0.cached_zero_vector".
+Loading pretrained parameter "encoder.encoder.0.W_i.weight".
+Loading pretrained parameter "encoder.encoder.0.W_h.weight".
+Loading pretrained parameter "encoder.encoder.0.W_o.weight".
+Loading pretrained parameter "encoder.encoder.0.W_o.bias".
+Loading pretrained parameter "encoder.encoder.1.cached_zero_vector".
+Loading pretrained parameter "encoder.encoder.1.W_i.weight".
+Loading pretrained parameter "encoder.encoder.1.W_h.weight".
+Loading pretrained parameter "encoder.encoder.1.W_o.weight".
+Loading pretrained parameter "encoder.encoder.1.W_o.bias".
+Warning: Pretrained parameter "ffn.1.weight" cannot be found in model parameters.
+Warning: Pretrained parameter "ffn.1.bias" cannot be found in model parameters.
+Warning: Pretrained parameter "ffn.4.weight" cannot be found in model parameters.
+Warning: Pretrained parameter "ffn.4.bias" cannot be found in model parameters.
+Warning: Pretrained parameter "ffn.7.weight" cannot be found in model parameters.
+Warning: Pretrained parameter "ffn.7.bias" cannot be found in model parameters.
+Moving model to cuda
+
+  0%|          | 0/52 [00:00<?, ?it/s][A
+  2%|▏         | 1/52 [00:00<00:28,  1.81it/s][A
+  6%|▌         | 3/52 [00:00<00:09,  5.22it/s][A
+  8%|▊         | 4/52 [00:00<00:08,  5.97it/s][A
+ 23%|██▎       | 12/52 [00:00<00:01, 20.72it/s][A
+ 38%|███▊      | 20/52 [00:01<00:00, 33.47it/s][A
+ 54%|█████▍    | 28/52 [00:01<00:00, 41.18it/s][A
+ 69%|██████▉   | 36/52 [00:01<00:00, 47.62it/s][A
+100%|██████████| 52/52 [00:01<00:00, 74.89it/s][A
+                                               [A 80%|████████  | 4/5 [00:19<00:03,  3.37s/it]Loading pretrained parameter "encoder.encoder.0.cached_zero_vector".
+Loading pretrained parameter "encoder.encoder.0.W_i.weight".
+Loading pretrained parameter "encoder.encoder.0.W_h.weight".
+Loading pretrained parameter "encoder.encoder.0.W_o.weight".
+Loading pretrained parameter "encoder.encoder.0.W_o.bias".
+Loading pretrained parameter "encoder.encoder.1.cached_zero_vector".
+Loading pretrained parameter "encoder.encoder.1.W_i.weight".
+Loading pretrained parameter "encoder.encoder.1.W_h.weight".
+Loading pretrained parameter "encoder.encoder.1.W_o.weight".
+Loading pretrained parameter "encoder.encoder.1.W_o.bias".
+Warning: Pretrained parameter "ffn.1.weight" cannot be found in model parameters.
+Warning: Pretrained parameter "ffn.1.bias" cannot be found in model parameters.
+Warning: Pretrained parameter "ffn.4.weight" cannot be found in model parameters.
+Warning: Pretrained parameter "ffn.4.bias" cannot be found in model parameters.
+Warning: Pretrained parameter "ffn.7.weight" cannot be found in model parameters.
+Warning: Pretrained parameter "ffn.7.bias" cannot be found in model parameters.
+Moving model to cuda
+
+  0%|          | 0/52 [00:00<?, ?it/s][A
+  2%|▏         | 1/52 [00:00<00:28,  1.81it/s][A
+  8%|▊         | 4/52 [00:00<00:06,  7.38it/s][A
+ 23%|██▎       | 12/52 [00:00<00:01, 21.33it/s][A
+ 38%|███▊      | 20/52 [00:00<00:00, 34.27it/s][A
+ 54%|█████▍    | 28/52 [00:01<00:00, 39.42it/s][A
+ 69%|██████▉   | 36/52 [00:01<00:00, 39.93it/s][A
+                                               [A100%|██████████| 5/5 [00:20<00:00,  2.72s/it]100%|██████████| 5/5 [00:20<00:00,  4.19s/it]
+Saving predictions to preds.csv
+Elapsed time = 0:00:22
